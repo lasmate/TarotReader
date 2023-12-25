@@ -54,9 +54,10 @@ public class Draw {
      */
     public List<Integer> createCardList() {
         List<Integer> cardList = new ArrayList<>();
-        for (int i = 0; i < this.CardsInDeck; i++) {
+        for (int i = 1; i < this.CardsInDeck+1; i++) {
             cardList.add(i);
         }
+        System.out.println("The card list is: " + cardList);//debug
         return cardList;
     }
     
@@ -67,10 +68,10 @@ public class Draw {
      */
     public void askAdditionalDraws() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("You can add between 0 and 3 cards to your initial draw of 3.\nHow many additional cards would you like to draw if any?");
+        System.out.print("You can add between 0 and 3 cards to your initial draw of 3.\nHow many additional cards would you like to draw if any?\n");
         int additionalDraws = scanner.nextInt();
         scanner.close();
-        
+        System.out.println("You chose to draw " + additionalDraws + " additional cards.");//debug
         this.AdditionalDraw = additionalDraws;
         this.TotalDraw = this.BaseDraw + this.AdditionalDraw;
     }
@@ -101,7 +102,7 @@ public class Draw {
      * @return An array of integers representing the drawn cards.
      */
     public int[] NewDraw() {
-        this.askAdditionalDraws();
+2        this.askAdditionalDraws();
         this.DrawnCards = new int[this.TotalDraw];
         List<Integer> cardList = createCardList(); // Get the initial card list
 

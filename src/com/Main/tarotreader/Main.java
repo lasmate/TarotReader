@@ -25,7 +25,9 @@ public class Main {
                         System.out.println("Starting a new draw...");
 
                         Draw draw = new Draw();
-                        draw.NewDraw();
+                        System.out.println("The card your drew and their luck are as follows:");
+                        System.out.println(draw.NewDraw());
+                        
                         
                         break;
                     case 2:
