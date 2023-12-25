@@ -1,0 +1,2 @@
+1st step :
+    first i'll start by creating a basica java project with an interfact allowing me to do a random draw of 3 numbers ranging from 0 to 52 , then ask the user if they want to draw more, then display all the draws.
