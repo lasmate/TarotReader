@@ -4,6 +4,7 @@ package com.Main.tarotreader;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -21,7 +22,8 @@ public class Main {
 
                 switch (selection) {
                     case 1:
-                        System.out.println("You selected Action 1");
+                        System.out.println("Starting a new draw...");
+
                         Draw draw = new Draw();
                         draw.NewDraw();
                         

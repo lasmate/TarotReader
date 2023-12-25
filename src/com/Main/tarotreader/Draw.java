@@ -3,6 +3,12 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Draw class represents the process of drawing tarot cards.
+ * It allows the user to draw a specified number of cards from a deck and calculate their "Luck Ratio".
+ * The Luck Ratio is a number between -10 and 10 that represents the user's luck with the cards they drew.
+ * 
+ */
 public class Draw {
     private int BaseDraw = 3;
     private int AdditionalDraw = 0;
@@ -11,16 +17,32 @@ public class Draw {
     
     private int[] DrawnCards = new int[TotalDraw];
 
-    public Draw() {// Default constructor
+    /**
+     * Default constructor for the Draw class.
+     * Initializes the BaseDraw, AdditionalDraw, and TotalDraw variables to their default values.
+     */
+    public Draw() {
         this.BaseDraw = 3;
         this.AdditionalDraw = 0;
         this.TotalDraw = 0;
     }
 
+    /**
+     * Gets the number of cards in the deck.
+     *
+     * @return The number of cards in the deck.
+     */
     public int getCardsInDeck() {
         return this.CardsInDeck;
     }
-    public int setCardsInDeck(int cardsInDeck) {  // this setter is not used yet but is here to be able to retro fin the function of creating a userdefined decksize 
+
+    /**
+     * Sets the number of cards in the deck.
+     *
+     * @param cardsInDeck The new number of cards in the deck.
+     * @return The updated number of cards in the deck.
+     */
+    public int setCardsInDeck(int cardsInDeck) {
         this.CardsInDeck = cardsInDeck;
         return this.CardsInDeck;
     }
@@ -45,37 +67,38 @@ public class Draw {
      */
     public void askAdditionalDraws() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("You can add between 0 and 3 cardss to your initial draw of 3. \n How many additional cards would you like to draw if any?");
+        System.out.print("You can add between 0 and 3 cards to your initial draw of 3.\nHow many additional cards would you like to draw if any?");
         int additionalDraws = scanner.nextInt();
         scanner.close();
         
         this.AdditionalDraw = additionalDraws;
         this.TotalDraw = this.BaseDraw + this.AdditionalDraw;
     }
+    
     /**
-     * Generates a new chance ratio array based on the given drawn cards array.
+     * Generates a new Luck ratio array based on the given drawn cards array.
      * Each drawn card is paired with a randomly generated number between -10 and 10.
      *
-     * @param drawnCards the array of drawn cards
-     * @return the new chance ratio array
+     * @param drawnCards The array of drawn cards.
+     * @return The new Luck ratio array.
      */
-    public int[] NewChanceRatio(int[] drawnCards) {
-        int[] chanceRatio = new int[drawnCards.length * 2];
+    public int[] NewLuckRatio(int[] drawnCards) {
+        int[] LuckRatio = new int[drawnCards.length * 2];
         int index = 0;
         
         for (int i = 0; i < drawnCards.length; i++) {
             int randomNum = (int) (Math.random() * 21) - 10; // Generate a random number between -10 and 10
-            chanceRatio[index++] = drawnCards[i];
-            chanceRatio[index++] = randomNum;
+            LuckRatio[index++] = drawnCards[i];
+            LuckRatio[index++] = randomNum;
         }
         
-        return chanceRatio;
+        return LuckRatio;
     }
     
     /**
      * Generates a new draw of cards.
      * 
-     * @return an array of integers representing the drawn cards
+     * @return An array of integers representing the drawn cards.
      */
     public int[] NewDraw() {
         this.askAdditionalDraws();
@@ -89,7 +112,6 @@ public class Draw {
             cardList.remove(randomIndex); // Remove the drawn card from the card list
         }
 
-        return this.NewChanceRatio(this.DrawnCards);
+        return this.NewLuckRatio(this.DrawnCards);
     }
-
 }
