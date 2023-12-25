@@ -1,5 +1,5 @@
 
-package com.Main.tarotreader; // Replace com.example.tarotreader with your desired package name
+package com.Main.tarotreader;
 
 import java.util.Scanner;
 
@@ -11,7 +11,7 @@ public class Main {
         do {
             System.out.println("Please select an action:");
             System.out.println("1. Start a new draw");
-            System.out.println("2. Load a puser's draw history");
+            System.out.println("2. Load a user's draw history");
             System.out.println("3. Load last draw");
             System.out.println("4. Exit");
 
@@ -20,7 +20,9 @@ public class Main {
             switch (selection) {
                 case 1:
                     System.out.println("You selected Action 1");
-                    // Call the method for Action 1 here
+                    Draw draw = new Draw();
+                    draw.NewDraw();
+                    
                     break;
                 case 2:
                     System.out.println("You selected Action 2");
