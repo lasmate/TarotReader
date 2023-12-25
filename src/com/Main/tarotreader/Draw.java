@@ -84,17 +84,24 @@ public class Draw {
      * @param drawnCards The array of drawn cards.
      * @return The new Luck ratio array.
      */
-    public List<Pair<Integer, Integer>> NewLuckRatio(int[] drawnCards) {
-        List<Pair<Integer, Integer>> LuckRatio = new ArrayList<>();
+    public int[][] NewLuckRatio(int[] drawnCards){//has a grabled output for now
+        int[] LuckRatio = new int[drawnCards.length * 2];
+        int index = 0;
+        int[][] LuckRatioSatanised = new int[drawnCards.length][2];
         
         for (int i = 0; i < drawnCards.length; i++) {
             int randomNum = (int) (Math.random() * 21) - 10; // Generate a random number between -10 and 10
-            LuckRatio.add(new Pair<>(drawnCards[i], randomNum));
+            LuckRatio[index++] = drawnCards[i];
+            LuckRatio[index++] = randomNum;
         }
+        for (int i = 0; i < LuckRatio.length; i++) {
+            LuckRatioSatanised[i][0]= LuckRatio[i];
+            LuckRatioSatanised[i][1]= LuckRatio[i+1];
+            i++; 
+        }
+        System.out.println("The Luck Ratio is: " + LuckRatioSatanised);//debug
         
-        System.out.println("The Luck Ratio is: " + LuckRatio); // debug
-        
-        return LuckRatio;
+        return LuckRatioSatanised;
     }
     
     /**
