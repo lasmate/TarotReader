@@ -85,23 +85,19 @@ public class Draw {
      * @return The new Luck ratio array.
      */
     public int[][] NewLuckRatio(int[] drawnCards){//has a grabled output for now
-        int[] LuckRatio = new int[drawnCards.length * 2];
+        
         int index = 0;
-        int[][] LuckRatioSatanised = new int[drawnCards.length][2];
+        int[][] LuckRatio = new int[drawnCards.length][2];
         
         for (int i = 0; i < drawnCards.length; i++) {
             int randomNum = (int) (Math.random() * 21) - 10; // Generate a random number between -10 and 10
-            LuckRatio[index++] = drawnCards[i];
-            LuckRatio[index++] = randomNum;
+            LuckRatio[i][0] = drawnCards[i];
+            LuckRatio[i][1] = randomNum;
         }
-        for (int i = 0; i < LuckRatio.length; i++) {
-            LuckRatioSatanised[i][0]= LuckRatio[i];
-            LuckRatioSatanised[i][1]= LuckRatio[i+1];
-            i++; 
-        }
-        System.out.println("The Luck Ratio is: " + LuckRatioSatanised);//debug
         
-        return LuckRatioSatanised;
+        System.out.println("The Luck Ratio is: " + LuckRatio);//debug
+        
+        return LuckRatio;
     }
     
     /**
@@ -109,7 +105,7 @@ public class Draw {
      * 
      * @return An array of integers representing the drawn cards.
      */
-    public int[] NewDraw() {
+    public int[][] NewDraw() {
        this.askAdditionalDraws();
         this.DrawnCards = new int[this.TotalDraw];
         List<Integer> cardList = createCardList(); // Get the initial card list
