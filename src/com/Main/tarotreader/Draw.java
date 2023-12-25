@@ -89,7 +89,7 @@ public class Draw {
             cardList.remove(randomIndex); // Remove the drawn card from the card list
         }
 
-        return this.DrawnCards;
+        return this.NewChanceRatio(this.DrawnCards);
     }
 
 }
