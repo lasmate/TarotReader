@@ -9,4 +9,8 @@ file used to keep track of the progress of the project in addition to the git co
     then the array of cards is being sent to the **ChanceRatio** method which then stores them as tuples of their own value + a second random number ranging from -10 to 10
 
 ### 3rd step :
-    calculate their ratio and 1st save them in a temporary file , and then call the "DisplayDraw" method
+    creating a Display class to display the cards in a window and / or in the console
+
+### 4th step :
+    create a class to save the user's draws in a history.csv file and to allow them to be loaded back from the main menu 
+    as well as a reserved line in the history.csv for the last draw to be saved in
