@@ -16,18 +16,22 @@ when quitting the app, stores the last drawn cards in a temporary file, so that 
 
 mermaid diagram of the app
  ```mermaid
- flowchart TD
+  flowchart TD
  subgraph JAVA
-	A{Start} -->|check user|D{Load User}-->|user doesn't exists|D
+	A-.->|bad user input|A
+	A{Start} -->|check last draw|C[Load Last Draw]-.->|last draw empty|A
+	A{Start} -->|check user|D{Load User}-.->|user doesn't exists|D
+	A{Start} -->|new draw|B{1st draw}-.->|bad user input|B
+	
     D-->D1(display last draw)
     D-->D2(check all draws)
     D-->D3(delete user)
 	D1-->C
 	D2-->Z
-	A{Start} -->|check last draw|C[Load Last Draw]-->|last draw empty|A
+	
 	C-->Z
 	
-	A{Start} -->|new draw|B{1st draw}-->|bad user input|B
+	
     B -->B1(one more)
     B-->B2(two more )
     B-->B3(three more )
@@ -36,7 +40,7 @@ mermaid diagram of the app
 	B3-->B4
 	B4-->B5[roll chance ratio for each card]
 	B5-->Z
-	A-->|bad user input|A
+	
 subgraph Display Draw
 	Z{display}
 	Z-->Z1(card name and ratio card by card  )
