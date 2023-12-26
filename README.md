@@ -46,3 +46,33 @@ end
 end
     
 ```
+
+## Installation
+### JAVA
+To install the java app, you need to have java installed on your computer.
+To check if you have java installed, open a terminal and type
+```bash
+java -version
+```
+If you get an error, you need to install java.
+To install java, go to https://www.java.com/en/download/ and follow the instructions.
+
+### OcamL
+To install the OcamL app, you need to have OcamL installed on your computer.
+To check if you have OcamL installed, open a terminal and type
+```bash
+ocaml -version
+```
+If you get an error, you need to install OcamL.
+To install OcamL, go to https://ocaml.org/docs/install.html and follow the instructions.
+
+## Usage
+
+
+
+
+
+
+
+
+

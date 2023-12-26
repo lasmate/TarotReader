@@ -16,6 +16,7 @@ public class Draw {
     private int CardsInDeck = 78;// might rename this variable to DeckSize for improved clarity
     
     private int[] DrawnCards = new int[TotalDraw];
+    private int[][] LuckRatio = new int[TotalDraw][2];
 
     /**
      * Default constructor for the Draw class.
@@ -35,6 +36,25 @@ public class Draw {
     public int getCardsInDeck() {
         return this.CardsInDeck;
     }
+
+    /**
+     * Gets the Drawn Cards array.
+     *
+     * @return The Drawn Cards array.
+     */
+    public int[] getDrawnCards() {
+        return this.DrawnCards;
+    }
+
+    /**
+     * Gets the Luck Ratio array.
+     *
+     * @return The Luck Ratio array.
+     */
+    public int[][] getLuckRatio() {
+        return this.LuckRatio;
+    }
+
 
     /**
      * Sets the number of cards in the deck.
@@ -85,8 +105,6 @@ public class Draw {
      * @return The new Luck ratio array.
      */
     public int[][] NewLuckRatio(int[] drawnCards){//has a grabled output for now
-        
-        int index = 0;
         int[][] LuckRatio = new int[drawnCards.length][2];
         
         for (int i = 0; i < drawnCards.length; i++) {
@@ -94,8 +112,7 @@ public class Draw {
             LuckRatio[i][0] = drawnCards[i];
             LuckRatio[i][1] = randomNum;
         }
-        
-        System.out.println("The Luck Ratio is: " + LuckRatio);//debug
+        this.LuckRatio = LuckRatio;
         
         return LuckRatio;
     }

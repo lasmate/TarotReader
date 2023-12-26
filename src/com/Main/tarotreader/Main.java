@@ -25,8 +25,11 @@ public class Main {
                         System.out.println("Starting a new draw...");
 
                         Draw draw = new Draw();
+                        Display display = new Display();
                         System.out.println("The card your drew and their luck are as follows:");
-                        System.out.println(draw.NewDraw());
+                        draw.NewDraw();
+                        System.out.println("The cards you drew are as follows:");
+                        display.DisplayCard(draw.getLuckRatio());
                         
                         
                         break;
