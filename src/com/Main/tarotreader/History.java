@@ -23,7 +23,7 @@ public class History {
     /**
      * AddDrawTemp method adds the draw to temp line in the history file by calling the method AddDraw in the Utilities class
      * @param Draw
-     * @param UserName
+     * 
      */
     public void AddDrawTemp(int[][] Draw){
         Utilities.AddDraw(Draw, UserName, HistoryFileTempLine);
@@ -36,14 +36,13 @@ public class History {
      * if no : calls the method AddFirstDraw in the Utilities class to create the user field in the history file and add the draw to the user history
      * 
      * @param UserName
-     * 
      */
-    public void AddDrawToUserHistory(char UserName){
+    public void AddDraw(char UserName){
         UserHistory = Utilities.CheckHistory(UserName);
         if (UserHistory.equals("")){
             Utilities.AddDraw(Draw, UserName, HistoryFileHeaderLine);
         }else{
-            Utilities.AddDraw(Draw, UserName, HistoryFileTempLine);
+            Utilities.AddFirstDraw(Draw, UserName, HistoryFileTempLine);
         }
 
     }
