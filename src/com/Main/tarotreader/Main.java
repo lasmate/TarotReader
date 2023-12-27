@@ -19,7 +19,7 @@ public class Main {
                 System.out.println("4. Exit");
 
                 selection = scanner.nextInt();
-
+                History history = new History();
                 switch (selection) {
                     case 1:
                         System.out.println("Starting a new draw...");
@@ -34,7 +34,7 @@ public class Main {
                         display.DisplayCardsFull(draw.getLuckRatio());
                         System.out.println("do you want to save this draw? (y/n)");
                         String save = scanner.next();
-                        History history = new History();
+                        
                         if (save.equals("y")){
                             System.out.println("Please enter your username");
                             char username = scanner.next().charAt(0);
@@ -48,7 +48,8 @@ public class Main {
                         System.out.println("Loading a user's draw history...");
                         System.out.println("Please enter your username");
                         char username = scanner.next().charAt(0);
-                        History history = new History();
+                        
+                        
                         
 
                         break;

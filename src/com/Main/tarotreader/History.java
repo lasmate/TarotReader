@@ -16,7 +16,7 @@ public class History {
      * @return String representing the user history
      */
     public String GetUserHistory(char UserName) {
-        
+        Utillities Utilities = new Utillities();
         UserHistory = Utilities.CheckHistory(UserName);
         return UserHistory;
     }
