@@ -2,12 +2,9 @@ package com.Main.tarotreader;
 
 
 public class Display {
-    
     private String[] CardBank;
+    private String[] CardMeaning;
 
-    
-
-    
     /**
      * Retrieves the card name from the CardBank array by using the int provided by the LuckRatio array.
      * 
@@ -19,6 +16,11 @@ public class Display {
         return CardBank[CardNumber];
 
     }
+    public String GetCardMeaning(int CardNumber , int LuckRatio){
+        CardMeaning = Utillities.getCardMeanings(CardNumber);
+        return CardMeaning[LuckRatio];
+
+    }
 
     /**
      * Displays the card's number and card name only.
@@ -27,13 +29,9 @@ public class Display {
      * 
      **/
     public void DisplayCardsSimple(int[][] LuckRatio) {
-        
         for (int i = 0; i < LuckRatio.length; i++) {
-            System.out.println("Card " + LuckRatio[i][0] + ": " + GetCardName(LuckRatio[i][0])+"\n");
-            
+            System.out.println("Card " + LuckRatio[i][0] + ": " + GetCardName(LuckRatio[i][0])+"\n"); 
         }
-      
-
     }
 
     /**
@@ -43,7 +41,8 @@ public class Display {
      * 
      */
     public void DisplayCardsFull(int[][] LuckRatio) {
-        
-
+        for (int i = 0; i < LuckRatio.length; i++) {
+            System.out.println("Card " + LuckRatio[i][0] + ": " + GetCardName(LuckRatio[i][0]) + "\n" + "Meaning: " + GetCardMeaning(LuckRatio[i][0],LuckRatio[i][0]) + "\n");
+        }
     }
 }
