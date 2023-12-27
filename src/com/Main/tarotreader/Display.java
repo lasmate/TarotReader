@@ -27,7 +27,8 @@ public class Display {
      **/
     public void DisplayCardsSimple(int[][] LuckRatio) {
         for (int i = 0; i < LuckRatio.length; i++) {
-            System.out.println("Card " + LuckRatio[i][0] + ": " + GetCardName(LuckRatio[i][0]));
+            System.out.println("Card " + LuckRatio[i][0] + ": " + GetCardName(LuckRatio[i][0]+"\n"));
+            
         }
       
 

@@ -88,13 +88,22 @@ public class Draw {
      * between 0 and 3, and updates the total number of cards to be drawn accordingly.
      */
     public void askAdditionalDraws() {//works perfectly
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("You can add between 0 and 3 cards to your initial draw of 3.\nHow many additional cards would you like to draw if any?\n");
-        int additionalDraws = scanner.nextInt();
-        scanner.close();
-        System.out.println("You chose to draw " + additionalDraws + " additional cards.");//debug
-        this.AdditionalDraw = additionalDraws;
-        this.TotalDraw = this.BaseDraw + this.AdditionalDraw;
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("You can add between 0 and 3 cards to your initial draw of 3.\nHow many additional cards would you like to draw if any?\n");
+            int additionalDraws = scanner.nextInt();
+            scanner.close();
+
+            if (additionalDraws < 0 || additionalDraws > 3) {
+                throw new IllegalArgumentException("Invalid input. Please enter a number between 0 and 3.");
+            }
+
+            System.out.println("You chose to draw " + additionalDraws + " additional cards.");//debug
+            this.AdditionalDraw = additionalDraws;
+            this.TotalDraw = this.BaseDraw + this.AdditionalDraw;
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
     
     /**
