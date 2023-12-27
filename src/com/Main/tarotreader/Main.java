@@ -34,18 +34,23 @@ public class Main {
                         display.DisplayCardsFull(draw.getLuckRatio());
                         System.out.println("do you want to save this draw? (y/n)");
                         String save = scanner.next();
+                        History history = new History();
                         if (save.equals("y")){
                             System.out.println("Please enter your username");
                             char username = scanner.next().charAt(0);
-                            History history = new History();
-                            history.AddDraw(username);
-                        }
+                            
+                            history.AddDraw(username, draw.getLuckRatio());
+                        };
                         history.AddDrawTemp(draw.getLuckRatio());
                         
                         break;
                     case 2:
                         System.out.println("Loading a user's draw history...");
-                        // Call the method for Action 2 here
+                        System.out.println("Please enter your username");
+                        char username = scanner.next().charAt(0);
+                        History history = new History();
+                        
+
                         break;
                     case 3:
                         System.out.println("Loading the last draw...");
