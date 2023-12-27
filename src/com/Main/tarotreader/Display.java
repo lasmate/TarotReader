@@ -1,19 +1,11 @@
 package com.Main.tarotreader;
 
+
 public class Display {
     
-    private String[][] CardBank;
+    private String[] CardBank;
 
-    public String[][] getCardBank() {
-        return CardBank;
-    }
 
-    public void setCardBank(String[][] cardBank) {
-        CardBank = cardBank;
-    }
-
-    
-    
 
     
     /**
@@ -22,8 +14,8 @@ public class Display {
      *  @param LuckRatio The array containing the card's number and luck ratio.
      *  
      **/
-    public void GetCardName(int CardNumber){
-
+    public String GetCardName(int CardNumber){
+        return CardBank[CardNumber];
 
     }
 
@@ -34,6 +26,9 @@ public class Display {
      * 
      **/
     public void DisplayCardsSimple(int[][] LuckRatio) {
+        for (int i = 0; i < LuckRatio.length; i++) {
+            System.out.println("Card " + LuckRatio[i][0] + ": " + GetCardName(LuckRatio[i][0]));
+        }
       
 
     }

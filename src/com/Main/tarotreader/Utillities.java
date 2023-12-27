@@ -1,42 +1,39 @@
 package com.Main.tarotreader;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Utillities {
-    //cards DB
-    private char CardName = ' ';
-    private char CardMeaning = ' ';
-    private char[] CardInfo = new char[2];
-    private int CardNumber= 0;
-    private int LuckRatio = 0;
-    //users DB
-    private int ReservedLine = 0;
-    private char UserName = ' ';
-    private int[] UserDrawHistory;
+    
+    private static String[] CardBank;
 
-    /**
-     * Gets the card's name and meaning by calling an OcamL function to parse a CSV database.
-     * @param CardNumber The number of the card to retrieve information for.
-     * @param LuckRatio the specific card's luck ratio.
-     * @return The card's name and meaning.
-     */
-    public char[]  CardInfoRetrieve(int CardNumber, int LuckRatio) {
-
-        return CardInfo;
-
-
+    public static void main(String[] args) {
+        try {
+            getTarotNames();
+            System.out.println("Tarot Names: " + String.join(", ", CardBank));
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Looks up the user's name in the database using an OCamL function and returns the contents of the line where it is stored. stores the content of the line in a list of list of tuples of integers.
-     * 
-     * @param ReservedLine The line in the database where the is NEVER stored.
-     * @param UserName The user's name.
-     * @return The contents of the line where the user's name is stored.
-     */
-    public int[] UserRetrieve(int ReservedLine, char UserName) {
+    private static void getTarotNames() throws IOException, InterruptedException {
+        ProcessBuilder processBuilder = new ProcessBuilder("../../../crud/parse_json");
+        Process process = processBuilder.start();
+        process.waitFor(); //wait for the process to finish
 
-        
-        return UserDrawHistory;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            String line = reader.readLine();
+            if (line != null) {
+                CardBank = line.split(",");
+            } else {
+                CardBank = new String[0]; // Empty array if no names are found
+            }
+
+        }
     }
-
+    public static String[] getCardBank() {
+        return CardBank;
+    }
 }
+   
+

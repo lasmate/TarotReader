@@ -2,8 +2,6 @@ package com.Main.tarotreader;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class History {
     //History file handling
@@ -14,6 +12,9 @@ public class History {
     private int HistoryFileHeaderLength = 1;
     private String HistoryFileSeparator = ",";
     private String HistoryFileNewLine = "\n";
+
+    
+
 
     
     /**
