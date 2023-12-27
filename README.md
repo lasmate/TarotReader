@@ -31,7 +31,6 @@ mermaid diagram of the app
 	
 	C-->Z
 	
-	
     B -->B1(one more)
     B-->B2(two more )
     B-->B3(three more )

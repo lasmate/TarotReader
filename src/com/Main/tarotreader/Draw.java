@@ -14,7 +14,8 @@ public class Draw {
     private int AdditionalDraw = 0;
     private int TotalDraw = 0;
     private int CardsInDeck = 78;// might rename this variable to DeckSize for improved clarity
-    
+    private int[][] FinalDraw = new int[TotalDraw][2];
+
     private int[] DrawnCards = new int[TotalDraw];
     private int[][] LuckRatio = new int[TotalDraw][2];
 
@@ -26,6 +27,7 @@ public class Draw {
         this.BaseDraw = 3;
         this.AdditionalDraw = 0;
         this.TotalDraw = 0;
+
     }
 
     /**
@@ -113,7 +115,7 @@ public class Draw {
      * @param drawnCards The array of drawn cards.
      * @return The new Luck ratio array.
      */
-    public int[][] NewLuckRatio(int[] drawnCards){//has a grabled output for now
+    public int[][] LuckRatio(int[] drawnCards){
         int[][] LuckRatio = new int[drawnCards.length][2];
         
         for (int i = 0; i < drawnCards.length; i++) {
@@ -142,7 +144,9 @@ public class Draw {
             this.DrawnCards[i] = drawnCard; // Add the drawn card to the DrawnCards array
             cardList.remove(randomIndex); // Remove the drawn card from the card list
         }
-
-        return this.NewLuckRatio(this.DrawnCards);
+        FinalDraw=this.LuckRatio(this.DrawnCards);
+        History history = new History();
+        history.addDraw(FinalDraw);
+        return FinalDraw;
     }
 }
