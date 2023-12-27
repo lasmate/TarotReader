@@ -42,7 +42,7 @@ public class Utillities {
      * @throws IOException
      * @throws InterruptedException
      */
-    private static void getTarotMeanings() throws IOException, InterruptedException { //TODO: Implement this method cuz this is a simple copypaste 4nyauw
+    private static void getTarotMeanings(int CardNumber) throws IOException, InterruptedException { //UGLY AS FUCK FOR NOW
         ProcessBuilder processBuilder = new ProcessBuilder("../../../crud/parse_json.ml");
         Process process = processBuilder.start();
         process.waitFor(); //wait for the process to finish
@@ -57,9 +57,9 @@ public class Utillities {
 
         }
     }
-    public static String[] getCardMeanings() {//TODO: Implement this method cuz this is a simple copypaste 4nyauw
+    public static String[] getCardMeanings(int CardNumber) {//TODO: Implement this method cuz this is a simple copypaste 4nyauw
         try {
-            getTarotMeanings();
+            getTarotMeanings(CardNumber);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -87,6 +87,18 @@ public class Utillities {
         
     
     
+    }
+
+
+    /**
+     * AddFirstDraw method creates the user field in the history file and adds the draw to the user history
+     * 
+     * @param Draw
+     * @param UserName
+     * @param HistoryFileTempLine
+     */
+    public void AddFirstDraw(int[][] draw, char userName, int historyFileTempLine) {
+        
     }
 
 

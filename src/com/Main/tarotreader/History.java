@@ -16,6 +16,7 @@ public class History {
      * @return String representing the user history
      */
     public String GetUserHistory(char UserName) {
+        
         UserHistory = Utilities.CheckHistory(UserName);
         return UserHistory;
     }
@@ -26,8 +27,8 @@ public class History {
      * 
      */
     public void AddDrawTemp(int[][] Draw){
-        Utilities.AddDraw(Draw, UserName, HistoryFileTempLine);
-
+        Utillities Utilities = new Utillities();
+        Utilities.AddDraw(Draw,'0', HistoryFileTempLine);
     }
 
     /**
@@ -39,13 +40,13 @@ public class History {
      * @param Draw
      */
     public void AddDraw(char UserName ,int[][] Draw){
+        Utillities Utilities = new Utillities();
         UserHistory = Utilities.CheckHistory(UserName);
         if (UserHistory.equals("")){
             Utilities.AddDraw(Draw, UserName, HistoryFileHeaderLine);
         }else{
             Utilities.AddFirstDraw(Draw, UserName, HistoryFileTempLine);
         }
-
     }
 
 }
