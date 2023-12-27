@@ -146,7 +146,7 @@ public class Draw {
         }
         FinalDraw=this.LuckRatio(this.DrawnCards);
         History history = new History();
-        history.addDraw(FinalDraw);
+        history.AddDrawTemp(FinalDraw);
         return FinalDraw;
     }
 }

@@ -32,16 +32,24 @@ public class Main {
                         display.DisplayCardsSimple(draw.getLuckRatio());
                         System.out.println("The cards you drew and their meanings are as follows:");
                         display.DisplayCardsFull(draw.getLuckRatio());
-                        
+                        System.out.println("do you want to save this draw? (y/n)");
+                        String save = scanner.next();
+                        if (save.equals("y")){
+                            System.out.println("Please enter your username");
+                            char username = scanner.next().charAt(0);
+                            History history = new History();
+                            history.AddDrawToUserHistory(username);
+                        }
                         
                         break;
                     case 2:
-                        System.out.println("You selected Action 2");
+                        System.out.println("Loading a user's draw history...");
                         // Call the method for Action 2 here
                         break;
                     case 3:
-                        System.out.println("You selected Action 3");
-                        // Call the method for Action 3 here
+                        System.out.println("Loading the last draw...");
+                        
+                        
                         break;
                     case 4:
                         System.out.println("Exiting...");
