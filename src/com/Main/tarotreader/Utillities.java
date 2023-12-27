@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 public class Utillities {
     
     private static String[] CardBank;
+    private static String[] CardMeaning;
     /**
      * Gets the card names from the parse_json executable.
      * 
@@ -58,7 +59,7 @@ public class Utillities {
     }
     public static String[] getCardMeanings() {//TODO: Implement this method cuz this is a simple copypaste 4nyauw
         try {
-            getTarotMeaning();
+            getTarotMeanings();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

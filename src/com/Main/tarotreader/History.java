@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 
 public class History {
     private String UserHistory;
-    private String HistoryFileHeader = "UserName, Draw[NbOfDraw,NbOfCards,[Draw1[[Card1,LuckRatio1],[Card2,LuckRatio2],...,[CardNbOfCards,LuckRatioNbOfCards]],...,[DrawNbOfDraw[[Card1,LuckRatio1],[Card2,LuckRatio2],...,[CardNbOfCards,LuckRatioNbOfCards]]";
+    //private String HistoryFileHeader = "UserName, Draw[NbOfDraw,NbOfCards,[Draw1[[Card1,LuckRatio1],[Card2,LuckRatio2],...,[CardNbOfCards,LuckRatioNbOfCards]],...,[DrawNbOfDraw[[Card1,LuckRatio1],[Card2,LuckRatio2],...,[CardNbOfCards,LuckRatioNbOfCards]]";
     private int HistoryFileHeaderLine = 0;
     private int HistoryFileTempLine= 1;
     
@@ -36,8 +36,9 @@ public class History {
      * if no : calls the method AddFirstDraw in the Utilities class to create the user field in the history file and add the draw to the user history
      * 
      * @param UserName
+     * @param Draw
      */
-    public void AddDraw(char UserName){
+    public void AddDraw(char UserName ,int[][] Draw){
         UserHistory = Utilities.CheckHistory(UserName);
         if (UserHistory.equals("")){
             Utilities.AddDraw(Draw, UserName, HistoryFileHeaderLine);

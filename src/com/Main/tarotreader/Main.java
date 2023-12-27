@@ -38,8 +38,9 @@ public class Main {
                             System.out.println("Please enter your username");
                             char username = scanner.next().charAt(0);
                             History history = new History();
-                            history.AddDrawToUserHistory(username);
+                            history.AddDraw(username);
                         }
+                        history.AddDrawTemp(draw.getLuckRatio());
                         
                         break;
                     case 2:
@@ -49,7 +50,7 @@ public class Main {
                     case 3:
                         System.out.println("Loading the last draw...");
                         
-                        
+
                         break;
                     case 4:
                         System.out.println("Exiting...");
