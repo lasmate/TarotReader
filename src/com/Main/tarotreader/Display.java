@@ -1,48 +1,51 @@
 package com.Main.tarotreader;
 
 public class Display {
-    private int CardsToDisplay = 0;
-    private char[] DisplayedCard= new char[2];
+    
     private String[][] CardBank;
 
+    public String[][] getCardBank() {
+        return CardBank;
+    }
+
+    public void setCardBank(String[][] cardBank) {
+        CardBank = cardBank;
+    }
+
+    
+    
+
+    
     /**
-     * Calls a method called CardInfoRetrieve(int cardNumber, int LuckRatio) from the Utilities class.
-     * this method will retrieve the card's name and meaning from the database.
-     * and then store them in the CardName and CardMeaning variables.
+     * Retrieves the card name from the CardBank array by using the int provided by the LuckRatio array.
      * 
-     * @param CardNumber The number of the card to retrieve information for.
-     * @param LuckRatio the specific card's luck ratio.
+     *  @param LuckRatio The array containing the card's number and luck ratio.
+     *  
      **/
-    public void GetCardInfo(int CardNumber, int LuckRatio) {//to complete 
-        Utillities utillities = new Utillities();
-        char[] CardInfo = utillities.CardInfoRetrieve(CardNumber, LuckRatio);
-        this.CardName = CardInfo[0];
-        this.CardMeaning = CardInfo[1];
+    public void GetCardName(int CardNumber){
+
+
     }
 
     /**
-     * Displays the card's number and luck ratio.
+     * Displays the card's number and card name only.
      * 
      * @param LuckRatio The array containing the card's number and luck ratio.
      * 
      **/
-    public void DisplayCard(int[][] LuckRatio ) {
-        for (int i = 0; i < LuckRatio.length; i++) {
-            System.out.println("Card " + (i + 1) + ": " + LuckRatio[i][0] + " " + LuckRatio[i][1]);
-        }
+    public void DisplayCardsSimple(int[][] LuckRatio) {
+      
 
     }
 
     /**
-     * Displays the card's name and meaning.
+     * Displays all the drawn cards names and selected meaning.
      * 
      * @param int[][] LuckRatio
-     * @param String[][] CardBank
+     * 
      */
-    public void DisplayCardInfo(int[][] LuckRatio, String[][] CardBank) {
-        for (int i = 0; i < LuckRatio.length; i++) {
-            System.out.println("Card " + (i + 1) + ": " + CardBank[LuckRatio[i][0]][0] + " "
-                    + CardBank[LuckRatio[i][1]][1]);
-        }
+    public void DisplayCardsFull(int[][] LuckRatio) {
+        
 
+    }
 }

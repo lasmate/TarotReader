@@ -29,7 +29,9 @@ public class Main {
                         System.out.println("The card your drew and their luck are as follows:");
                         draw.NewDraw();
                         System.out.println("The cards you drew are as follows:");
-                        display.DisplayCard(draw.getLuckRatio());
+                        display.DisplayCardsSimple(draw.getLuckRatio());
+                        System.out.println("The cards you drew and their meanings are as follows:");
+                        display.DisplayCardsFull(draw.getLuckRatio());
                         
                         
                         break;
