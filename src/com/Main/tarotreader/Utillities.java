@@ -6,16 +6,12 @@ import java.io.InputStreamReader;
 public class Utillities {
     
     private static String[] CardBank;
-
-    public static void main(String[] args) {
-        try {
-            getTarotNames();
-            System.out.println("Tarot Names: " + String.join(", ", CardBank));
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Gets the card names from the parse_json executable.
+     * 
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private static void getTarotNames() throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder("../../../crud/parse_json");
         Process process = processBuilder.start();
@@ -32,6 +28,11 @@ public class Utillities {
         }
     }
     public static String[] getCardBank() {
+        try {
+            getTarotNames();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         return CardBank;
     }
 }
