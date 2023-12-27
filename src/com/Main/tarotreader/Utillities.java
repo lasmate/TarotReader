@@ -13,7 +13,7 @@ public class Utillities {
      * @throws InterruptedException
      */
     private static void getTarotNames() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder("../../../crud/parse_json");
+        ProcessBuilder processBuilder = new ProcessBuilder("../../../crud/parse_json.ml");
         Process process = processBuilder.start();
         process.waitFor(); //wait for the process to finish
 
