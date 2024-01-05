@@ -1,10 +1,12 @@
 package com.Main.tarotreader;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 
@@ -117,30 +119,13 @@ public class Utillities {
     
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * CheckHistory method checks if the user has a field in the history file and returns the user history
      * 
-     * @param UserName
+     * @param userName
      * @return String representing the user history
      */
-    public String CheckHistory(char UserName) {
+    public String CheckHistory(String userName) {
         return "";
     }
 
@@ -151,13 +136,35 @@ public class Utillities {
      * @param UserName
      * @param HistoryFileLine
      */
-    public void AddDraw(int[][] Draw, char UserName, int HistoryFileLine) {
-        
-    
-    
+    public void AddDraw(int[][] Draw, String UserName, int HistoryFileLine) {
+        String ocamlProgram = "crud/write_history.ml";
+         try {
+            // Prepare the command to call the OCaml script
+            String[] command = {"ocaml", ocamlProgram, UserName, drawToString(Draw)};
+
+            // Start the process
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            Process process = processBuilder.start();
+
+            // Read the output of the OCaml script
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            // Wait for the process to complete
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                System.err.println("Error executing OCaml script. Exit code: " + exitCode);
+            }
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-
+   
     /**
      * AddFirstDraw method creates the user field in the history file and adds the draw to the user history
      * 
@@ -165,10 +172,24 @@ public class Utillities {
      * @param UserName
      * @param HistoryFileTempLine
      */
-    public void AddFirstDraw(int[][] draw, char userName, int historyFileTempLine) {
+    public void AddFirstDraw(int[][] draw, String userName, int historyFileTempLine) {
         
     }
 
+
+     /**
+     * drawToString method converts the draw to a string
+     * 
+     * @param Draw
+     * @return String representing the draw
+     */
+    private String drawToString(int[][] draw) {
+        StringBuilder builder = new StringBuilder();
+        for (int[] pair : draw) {
+            builder.append(pair[0]).append(",").append(pair[1]).append(",");
+        }
+        return builder.toString();
+    }
 
 
 }

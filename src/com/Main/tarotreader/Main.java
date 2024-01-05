@@ -40,7 +40,7 @@ public class Main {
                         
                         if (save.equals("y")){
                             System.out.println("Please enter your username");
-                            char username = scanner.next().charAt(0);
+                            String username = scanner.next();
                             
                             history.AddDraw(username, draw.getLuckRatio());
                         };
