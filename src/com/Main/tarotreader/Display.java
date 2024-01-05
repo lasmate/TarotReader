@@ -43,9 +43,10 @@ public class Display {
      * @throws IOException
      * 
      */
-    public void DisplayCardsFull(int[][] LuckRatio) throws IOException {
+    public void DisplayCardsFull(int[][] LuckRatio) throws IOException  {
         for (int i = 0; i < LuckRatio.length; i++) {
-            System.out.println("Card " + LuckRatio[i][0] + ": " + GetCardName(LuckRatio[i][0]) + "\n" + "Meaning: " + GetCardMeaning(LuckRatio[i][0],LuckRatio[i][1]) + "\n");
+            System.out.println("Card " + LuckRatio[i][0] + ": " + GetCardName(LuckRatio[i][0]) + "\n");
+            System.out.println("Meaning: " + GetCardMeaning(LuckRatio[i][0],LuckRatio[i][1]) + "\"\n");
         }
     }
 }

@@ -67,7 +67,7 @@ public class Utillities {
             CreateNamedCardBank();
         }
         ExtractMeaningsForNamedCard(cardName, new String(Files.readAllBytes(Paths.get(CaMeDBPath))));
-         System.out.println(Arrays.toString(CardMeanings));
+         //System.out.println(Arrays.toString(CardMeanings));debug
         return CardMeanings;
 
     
@@ -82,62 +82,41 @@ public class Utillities {
      */
     private static void ExtractMeaningsForNamedCard(String cardName, String jsonContent) {
         try {
-            // Find the index of the tarot interpretation for the specified card name
+            // Find the starting index of the "meanings" field for the specified card
             int cardIndex = jsonContent.indexOf(cardName);
-
+    
             if (cardIndex != -1) {
-                // Find the starting and ending indices of the "meanings" value
-                int meaningsStart = jsonContent.indexOf("\"meanings\"", cardIndex);
-                int meaningsValueStart = jsonContent.indexOf("{", meaningsStart);
-                int meaningsValueEnd = jsonContent.indexOf("}", meaningsValueStart);
+                // Find the starting index of the "light" and "shadow" arrays within the "meanings" field
+                int lightStart = jsonContent.indexOf("\"light\":", cardIndex);
+                int shadowStart = jsonContent.indexOf("\"shadow\":", cardIndex);
     
-                // Extract the "meanings" value from the JSON content
-                String meaningsValue = jsonContent.substring(meaningsValueStart + 1, meaningsValueEnd);
+                // Find the ending indices of the "light" and "shadow" arrays
+                int lightEnd = jsonContent.indexOf("]", lightStart);
+                int shadowEnd = jsonContent.indexOf("]", shadowStart);
     
-                // Split the "meanings" value into an array of strings
-                String[] meaningsArray = meaningsValue.split(",");
-                String[] lightMeanings = new String[5];
-                String[] shadowMeanings = new String[5];
+                // Extract the "light" and "shadow" arrays from the JSON content
+                String lightArray = jsonContent.substring(lightStart + "\"light\":".length(), lightEnd + 1);
+                String shadowArray = jsonContent.substring(shadowStart + "\"shadow\":".length(), shadowEnd + 1);
     
-                // Counters for light and shadow meanings
-                int lightCount = 0;
-                int shadowCount = 0;
-
-                // Iterate through the "meanings" array to separate "light" and "shadow" subfields
-                for (String meaning : meaningsArray) {
-                    if (meaning.contains("\"light\"")) {
-                        // Extract values for the "light" subfield
-                        lightIndex = extractSubfieldValues(meaning, lightMeanings, lightIndex);
-                    } else if (meaning.contains("\"shadow\"")) {
-                        // Extract values for the "shadow" subfield
-                        shadowIndex = extractSubfieldValues(meaning, shadowMeanings, shadowIndex);
-                    }
-                }
-
+                // Split the arrays into individual meanings and clean up unnecessary characters
+                String[] lightMeanings = lightArray.split("\",\"?");
+                String[] shadowMeanings = shadowArray.split("\",\"?");
+    
                 // Combine "light" and "shadow" meanings into a single array
-                CardMeanings = Arrays.copyOf(lightMeanings, lightMeanings.length + shadowMeanings.length);
-                System.arraycopy(shadowMeanings, 0, CardMeanings, lightMeanings.length, shadowMeanings.length);
-            } else {
-                System.out.println("Card not found: " + cardName);
+                String[] combinedMeanings = new String[lightMeanings.length + shadowMeanings.length];
+                System.arraycopy(lightMeanings, 0, combinedMeanings, 0, lightMeanings.length);
+                System.arraycopy(shadowMeanings, 0, combinedMeanings, lightMeanings.length, shadowMeanings.length);
+    
+                // Assign the combined meanings array to your desired variable
+                CardMeanings = combinedMeanings;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
 
-    // Helper method to extract values from a "light" or "shadow" subfield
-    private static int extractSubfieldValues(String subfield, String[] meaningsArray, int index) {
-        // Split the subfield into key and value
-        String[] subfieldArray = subfield.split(":");
-        // Extract the value and trim unnecessary characters
-        String subfieldValue = subfieldArray[1].trim();
-        // Remove quotes and trailing comma
-        subfieldValue = subfieldValue.substring(1, subfieldValue.length() - 1);
-        // Add the extracted value to the meanings array
-        meaningsArray[index] = subfieldValue;
-        return index + 1;
-    }
+
 
 
 
