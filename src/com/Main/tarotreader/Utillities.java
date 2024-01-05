@@ -86,7 +86,7 @@ public class Utillities {
     private static void ExtractMeaningsForNamedCard(String cardName, String jsonContent) {
         try {
             // Find the index of the tarot interpretation for the specified card name
-            int cardIndex = jsonContent.toLowerCase().indexOf("\"name\":\"" + cardName.toLowerCase() + "\"");
+            int cardIndex = jsonContent.indexOf("\"name\":\"" + cardName.toLowerCase() + "\"");
 
             if (cardIndex != -1) {
                 // Find the starting index of the "meanings" field for the specified card
