@@ -84,20 +84,21 @@ public class Utillities {
      * @param jsonContent The json database content.
      */
     private static void ExtractMeaningsForNamedCard(String cardName, String jsonContent) {
-        try {   
-            // Normalize the JSON content by removing extra spaces and line breaks
-            jsonContent = jsonContent.replaceAll("\\s", "");
-            //find the good card to extract the meanings from
-            int cardIndex = jsonContent.indexOf("\"name\":\"" + cardName + "\"");
-           
+        try {
+            // Find the index of the tarot interpretation for the specified card name
+            int cardIndex = jsonContent.toLowerCase().indexOf("\"name\":\"" + cardName.toLowerCase() + "\"");
+
             if (cardIndex != -1) {
                 // Find the starting index of the "meanings" field for the specified card
                 int meaningsStart = jsonContent.indexOf("\"meanings\"", cardIndex);
+
                 // Find the starting and ending indices of the "meanings" value
                 int meaningsValueStart = jsonContent.indexOf("{", meaningsStart);
                 int meaningsValueEnd = jsonContent.indexOf("}", meaningsValueStart);
+
                 // Extract the "meanings" value from the JSON content
                 String meaningsValue = jsonContent.substring(meaningsValueStart + 1, meaningsValueEnd);
+
                 // Split the "meanings" value into an array of strings
                 String[] meaningsArray = meaningsValue.split(",");
                 String[] lightMeanings = new String[5];
@@ -107,19 +108,19 @@ public class Utillities {
                 int shadowIndex = 0;
 
                 // Iterate through the "meanings" array to separate "light" and "shadow" subfields
-                    for (String meaning : meaningsArray) {
-                        if (meaning.contains("\"light\"")) {
-                            // Extract values for the "light" subfield
-                            lightIndex = extractSubfieldValues(meaning, lightMeanings, lightIndex);
-                        } else if (meaning.contains("\"shadow\"")) {
-                            // Extract values for the "shadow" subfield
-                            shadowIndex = extractSubfieldValues(meaning, shadowMeanings, shadowIndex);
-                        }
+                for (String meaning : meaningsArray) {
+                    if (meaning.contains("\"light\"")) {
+                        // Extract values for the "light" subfield
+                        lightIndex = extractSubfieldValues(meaning, lightMeanings, lightIndex);
+                    } else if (meaning.contains("\"shadow\"")) {
+                        // Extract values for the "shadow" subfield
+                        shadowIndex = extractSubfieldValues(meaning, shadowMeanings, shadowIndex);
                     }
+                }
 
-                    // Combine "light" and "shadow" meanings into a single array
-                    CardMeanings = Arrays.copyOf(lightMeanings, lightMeanings.length + shadowMeanings.length);
-                    System.arraycopy(shadowMeanings, 0, CardMeanings, lightMeanings.length, shadowMeanings.length);
+                // Combine "light" and "shadow" meanings into a single array
+                CardMeanings = Arrays.copyOf(lightMeanings, lightMeanings.length + shadowMeanings.length);
+                System.arraycopy(shadowMeanings, 0, CardMeanings, lightMeanings.length, shadowMeanings.length);
             } else {
                 System.out.println("Card not found: " + cardName);
             }
@@ -141,10 +142,6 @@ public class Utillities {
         meaningsArray[index] = subfieldValue;
         return index + 1;
     }
-
-
-
-
 
 
 
