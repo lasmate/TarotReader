@@ -86,23 +86,22 @@ public class Utillities {
             int cardIndex = jsonContent.indexOf(cardName);
 
             if (cardIndex != -1) {
-                // Find the starting index of the "meanings" field for the specified card
-                int meaningsStart = jsonContent.indexOf("\"meanings\"", cardIndex);
-
                 // Find the starting and ending indices of the "meanings" value
+                int meaningsStart = jsonContent.indexOf("\"meanings\"", cardIndex);
                 int meaningsValueStart = jsonContent.indexOf("{", meaningsStart);
                 int meaningsValueEnd = jsonContent.indexOf("}", meaningsValueStart);
-
+    
                 // Extract the "meanings" value from the JSON content
                 String meaningsValue = jsonContent.substring(meaningsValueStart + 1, meaningsValueEnd);
-
+    
                 // Split the "meanings" value into an array of strings
                 String[] meaningsArray = meaningsValue.split(",");
                 String[] lightMeanings = new String[5];
                 String[] shadowMeanings = new String[5];
-
-                int lightIndex = 0;
-                int shadowIndex = 0;
+    
+                // Counters for light and shadow meanings
+                int lightCount = 0;
+                int shadowCount = 0;
 
                 // Iterate through the "meanings" array to separate "light" and "shadow" subfields
                 for (String meaning : meaningsArray) {
@@ -134,7 +133,7 @@ public class Utillities {
         // Extract the value and trim unnecessary characters
         String subfieldValue = subfieldArray[1].trim();
         // Remove quotes and trailing comma
-        subfieldValue = subfieldValue.substring(1, subfieldValue.length() - 2);
+        subfieldValue = subfieldValue.substring(1, subfieldValue.length() - 1);
         // Add the extracted value to the meanings array
         meaningsArray[index] = subfieldValue;
         return index + 1;
