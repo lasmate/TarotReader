@@ -1,12 +1,15 @@
 
 package com.Main.tarotreader;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
+
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         int selection=0;
 
@@ -23,7 +26,7 @@ public class Main {
                 switch (selection) {
                     case 1:
                         System.out.println("Starting a new draw...");
-
+                        
                         Draw draw = new Draw();
                         Display display = new Display();
                         System.out.println("The card your drew and their luck are as follows:");

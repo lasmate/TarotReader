@@ -47,7 +47,6 @@ public class Draw {
     public int[] getDrawnCards() {
         return this.DrawnCards;
     }
-
     /**
      * Gets the Luck Ratio array.
      *
@@ -56,7 +55,6 @@ public class Draw {
     public int[][] getLuckRatio() {
         return this.LuckRatio;
     }
-
 
     /**
      * Sets the number of cards in the deck.
@@ -83,7 +81,6 @@ public class Draw {
         System.out.println("The card list is: " + cardList);//debug
         return cardList;
     }
-    
 
     /**
      * Prompts the user to input the number of additional cards they would like to draw,

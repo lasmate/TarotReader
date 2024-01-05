@@ -1,76 +1,164 @@
 package com.Main.tarotreader;
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Utillities {
     
-    private static String[] CardBank;
-    private static String[] CardMeaning;
+    private static String[] NamedCardBank;
+    private static String[] CardMeanings;
+    private static String CaMeDBPath = "src/com/Main/tarotreader/Tarot-DB.json";
+
     /**
-     * Gets the card names from the parse_json executable.
+     * Gets the card names from the by parsing the json database.
      * 
-     * @throws IOException
-     * @throws InterruptedException
+     * 
      */
-    private static void getTarotNames() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder("../../../crud/parse_json.ml");
-        Process process = processBuilder.start();
-        process.waitFor(); //wait for the process to finish
+    public static void CreateNamedCardBank(){
+        try{
+            //read json file into a string
+            String jsonContent = new String(Files.readAllBytes(Paths.get(CaMeDBPath)));
+            List<String> NamesList = new ArrayList<String>();
+            int Index=0;
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            String line = reader.readLine();
-            if (line != null) {
-                CardBank = line.split(",");
-            } else {
-                CardBank = new String[0]; // Empty array if no names are found
+            while (Index < jsonContent.length()) {
+                //find the start and end of the "name" field
+                int NameStart = jsonContent.indexOf("\"name\":", Index);
+                if (NameStart == -1) {
+                    break;
+                }
+                int nameValueStart = jsonContent.indexOf("\"", NameStart + 7)+1;
+                int nameValueEnd = jsonContent.indexOf("\"", nameValueStart);
+                //extract the name and add to the list
+                String name = jsonContent.substring(nameValueStart, nameValueEnd);
+                NamesList.add(name);
+                Index = nameValueEnd+1;
             }
-
+            NamedCardBank = NamesList.toArray(new String[0]);
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
-    
     /**
      * Retrieves the card bank from the TarotNames file and returns it as an array of strings.
      *
      * @return the card bank as an array of strings
      */
-    public static String[] getCardBank() {
-        try {
-            getTarotNames();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return CardBank;
+    public static String[] getNamedCardBank() {
+        CreateNamedCardBank();
+        return NamedCardBank;
     }
+
     /**
-     * Gets the card meanings from the parse_json executable.
+     * Retrieves the meanings of a tarot card based on its card number.
      * 
+     * @param cardNumber The card number of the tarot card.
+     * @return An array of strings representing the meanings of the tarot card.
      * @throws IOException
-     * @throws InterruptedException
      */
-    private static void getTarotMeanings(int CardNumber) throws IOException, InterruptedException { //UGLY AS FUCK FOR NOW
-        ProcessBuilder processBuilder = new ProcessBuilder("../../../crud/parse_json.ml");
-        Process process = processBuilder.start();
-        process.waitFor(); //wait for the process to finish
+    public static String[] getCardMeanings(String cardName) throws IOException {//no checks for accurate card name since created from db not from user 
+        // Check if CardBank is not initialized or empty
+        if (NamedCardBank == null || NamedCardBank.length == 0) {
+            CreateNamedCardBank();
+        }
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            String line = reader.readLine();
-            if (line != null) {
-                CardBank = line.split(",");
-            } else {
-                CardBank = new String[0]; // Empty array if no names are found
+        // Check if CardMeanings is not initialized or empty
+        if (CardMeanings == null || CardMeanings.length == 0) {
+            ExtractMeaningsForNamedCard(cardName, new String(Files.readAllBytes(Paths.get(CaMeDBPath))));
+        }
+
+        // Convert cardName to lowercase for case-insensitive comparison
+        cardName = cardName.toLowerCase();
+
+        
+        return CardMeanings;
+
+    
+    }
+
+    /**
+     * Extracts the meanings of a tarot card from the json database.
+     * 
+     * @param cardName The name of the tarot card.
+     * @param jsonContent The json database content.
+     */
+    private static void ExtractMeaningsForNamedCard(String cardName, String jsonContent) {
+        try {   
+            // Find the starting index of the "meanings" field for the specified card
+            int meaningsStart = jsonContent.indexOf("\"meanings\"", jsonContent.indexOf("\"name\":\"" + cardName + "\""));
+
+            // Find the starting and ending indices of the "meanings" value
+            int meaningsValueStart = jsonContent.indexOf("{", meaningsStart);
+            int meaningsValueEnd = jsonContent.indexOf("}", meaningsValueStart);
+
+            // Extract the "meanings" value from the JSON content
+            String meaningsValue = jsonContent.substring(meaningsValueStart + 1, meaningsValueEnd);
+
+            // Split the "meanings" value into an array of strings
+            String[] meaningsArray = meaningsValue.split(",");
+            List<String> lightMeanings = new ArrayList<>();
+            List<String> shadowMeanings = new ArrayList<>();
+
+            // Iterate through the "meanings" array to separate "light" and "shadow" subfields
+            for (String meaning : meaningsArray) {
+                if (meaning.contains("\"light\"")) {
+                    // Extract values for the "light" subfield
+                    extractSubfieldValues(meaning, lightMeanings);
+                } else if (meaning.contains("\"shadow\"")) {
+                    // Extract values for the "shadow" subfield
+                    extractSubfieldValues(meaning, shadowMeanings);
+                }
             }
+            // Limit the number of meanings to 5 for both "light" and "shadow"
+            lightMeanings = lightMeanings.subList(0, Math.min(5, lightMeanings.size()));
+            shadowMeanings = shadowMeanings.subList(0, Math.min(5, shadowMeanings.size()));
 
-        }
+            // Combine "light" and "shadow" meanings into a single list
+            List<String> combinedMeanings = new ArrayList<>(lightMeanings);
+            combinedMeanings.addAll(shadowMeanings);
+
+
+            // Convert the list to an array
+            CardMeanings = combinedMeanings.toArray(new String[0]);
+
+    } catch (Exception e) {
+        e.printStackTrace();}
     }
-    public static String[] getCardMeanings(int CardNumber) {//TODO: Implement this method cuz this is a simple copypaste 4nyauw
-        try {
-            getTarotMeanings(CardNumber);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return CardMeaning;
+
+    // Helper method to extract values from a "light" or "shadow" subfield
+    private static void extractSubfieldValues(String subfield, List<String> meaningsList) {
+        // Split the subfield into key and value
+        String[] subfieldArray = subfield.split(":");
+        // Extract the value and trim unnecessary characters
+        String subfieldValue = subfieldArray[1].trim();
+        // Remove quotes and trailing comma
+        subfieldValue = subfieldValue.substring(1, subfieldValue.length() - 2);
+        // Add the extracted value to the meanings list
+        meaningsList.add(subfieldValue);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**
@@ -82,6 +170,7 @@ public class Utillities {
     public String CheckHistory(char UserName) {
         return "";
     }
+
     /**
      * AddDraw method adds the draw to the history file
      * 
