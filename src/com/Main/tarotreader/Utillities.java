@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -70,11 +71,7 @@ public class Utillities {
         if (CardMeanings == null || CardMeanings.length == 0) {
             ExtractMeaningsForNamedCard(cardName, new String(Files.readAllBytes(Paths.get(CaMeDBPath))));
         }
-
-        // Convert cardName to lowercase for case-insensitive comparison
-        cardName = cardName.toLowerCase();
-
-        
+    
         return CardMeanings;
 
     
@@ -88,62 +85,61 @@ public class Utillities {
      */
     private static void ExtractMeaningsForNamedCard(String cardName, String jsonContent) {
         try {   
+            // Normalize the JSON content by removing extra spaces and line breaks
+            jsonContent = jsonContent.replaceAll("\\s", "");
             //find the good card to extract the meanings from
             int cardIndex = jsonContent.indexOf("\"name\":\"" + cardName + "\"");
-            if (cardIndex == -1) {//useless check since cardName is created from the db but just in case and/or later implementation
-                throw new IllegalArgumentException("Invalid card name. Please try again.");
+           
+            if (cardIndex != -1) {
+                // Find the starting index of the "meanings" field for the specified card
+                int meaningsStart = jsonContent.indexOf("\"meanings\"", cardIndex);
+                // Find the starting and ending indices of the "meanings" value
+                int meaningsValueStart = jsonContent.indexOf("{", meaningsStart);
+                int meaningsValueEnd = jsonContent.indexOf("}", meaningsValueStart);
+                // Extract the "meanings" value from the JSON content
+                String meaningsValue = jsonContent.substring(meaningsValueStart + 1, meaningsValueEnd);
+                // Split the "meanings" value into an array of strings
+                String[] meaningsArray = meaningsValue.split(",");
+                String[] lightMeanings = new String[5];
+                String[] shadowMeanings = new String[5];
+
+                int lightIndex = 0;
+                int shadowIndex = 0;
+
+                // Iterate through the "meanings" array to separate "light" and "shadow" subfields
+                    for (String meaning : meaningsArray) {
+                        if (meaning.contains("\"light\"")) {
+                            // Extract values for the "light" subfield
+                            lightIndex = extractSubfieldValues(meaning, lightMeanings, lightIndex);
+                        } else if (meaning.contains("\"shadow\"")) {
+                            // Extract values for the "shadow" subfield
+                            shadowIndex = extractSubfieldValues(meaning, shadowMeanings, shadowIndex);
+                        }
+                    }
+
+                    // Combine "light" and "shadow" meanings into a single array
+                    CardMeanings = Arrays.copyOf(lightMeanings, lightMeanings.length + shadowMeanings.length);
+                    System.arraycopy(shadowMeanings, 0, CardMeanings, lightMeanings.length, shadowMeanings.length);
+            } else {
+                System.out.println("Card not found: " + cardName);
             }
-            // Find the starting index of the "meanings" field for the specified card
-            int meaningsStart = jsonContent.indexOf("\"meanings\"",cardIndex);
 
-            // Find the starting and ending indices of the "meanings" value
-            int meaningsValueStart = jsonContent.indexOf("{", meaningsStart);
-            int meaningsValueEnd = jsonContent.indexOf("}", meaningsValueStart);
-
-            // Extract the "meanings" value from the JSON content
-            String meaningsValue = jsonContent.substring(meaningsValueStart + 1, meaningsValueEnd);
-
-            // Split the "meanings" value into an array of strings
-            String[] meaningsArray = meaningsValue.split(",");
-            List<String> lightMeanings = new ArrayList<>();
-            List<String> shadowMeanings = new ArrayList<>();
-
-            // Iterate through the "meanings" array to separate "light" and "shadow" subfields
-            for (String meaning : meaningsArray) {
-                if (meaning.contains("\"light\"")) {
-                    // Extract values for the "light" subfield
-                    extractSubfieldValues(meaning, lightMeanings);
-                } else if (meaning.contains("\"shadow\"")) {
-                    // Extract values for the "shadow" subfield
-                    extractSubfieldValues(meaning, shadowMeanings);
-                }
-            }
-            // Limit the number of meanings to 5 for both "light" and "shadow"
-            lightMeanings = lightMeanings.subList(0, Math.min(5, lightMeanings.size()));
-            shadowMeanings = shadowMeanings.subList(0, Math.min(5, shadowMeanings.size()));
-
-            // Combine "light" and "shadow" meanings into a single list
-            List<String> combinedMeanings = new ArrayList<>(lightMeanings);
-            combinedMeanings.addAll(shadowMeanings);
-
-
-            // Convert the list to an array
-            CardMeanings = combinedMeanings.toArray(new String[0]);
-
-    } catch (Exception e) {
-        e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Helper method to extract values from a "light" or "shadow" subfield
-    private static void extractSubfieldValues(String subfield, List<String> meaningsList) {
+    private static int extractSubfieldValues(String subfield, String[] meaningsArray, int index) {
         // Split the subfield into key and value
         String[] subfieldArray = subfield.split(":");
         // Extract the value and trim unnecessary characters
         String subfieldValue = subfieldArray[1].trim();
         // Remove quotes and trailing comma
         subfieldValue = subfieldValue.substring(1, subfieldValue.length() - 2);
-        // Add the extracted value to the meanings list
-        meaningsList.add(subfieldValue);
+        // Add the extracted value to the meanings array
+        meaningsArray[index] = subfieldValue;
+        return index + 1;
     }
 
 
