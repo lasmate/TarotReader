@@ -107,7 +107,7 @@ public class Draw {
     
     /**
      * Generates a new Luck ratio array based on the given drawn cards array.
-     * Each drawn card is paired with a randomly generated number between -10 and 10.
+     * Each drawn card is paired with a randomly generated number between 0 and 10.
      *
      * @param drawnCards The array of drawn cards.
      * @return The new Luck ratio array.
@@ -116,7 +116,7 @@ public class Draw {
         int[][] LuckRatio = new int[drawnCards.length][2];
         
         for (int i = 0; i < drawnCards.length; i++) {
-            int randomNum = (int) (Math.random() * 21) - 10; // Generate a random number between -10 and 10
+            int randomNum = (int) (Math.random() * 11) ;//random number between 0 and 10
             LuckRatio[i][0] = drawnCards[i];
             LuckRatio[i][1] = randomNum;
         }
