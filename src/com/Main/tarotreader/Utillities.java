@@ -88,8 +88,13 @@ public class Utillities {
      */
     private static void ExtractMeaningsForNamedCard(String cardName, String jsonContent) {
         try {   
+            //find the good card to extract the meanings from
+            int cardIndex = jsonContent.indexOf("\"name\":\"" + cardName + "\"");
+            if (cardIndex == -1) {//useless check since cardName is created from the db but just in case and/or later implementation
+                throw new IllegalArgumentException("Invalid card name. Please try again.");
+            }
             // Find the starting index of the "meanings" field for the specified card
-            int meaningsStart = jsonContent.indexOf("\"meanings\"", jsonContent.indexOf("\"name\":\"" + cardName + "\""));
+            int meaningsStart = jsonContent.indexOf("\"meanings\"",cardIndex);
 
             // Find the starting and ending indices of the "meanings" value
             int meaningsValueStart = jsonContent.indexOf("{", meaningsStart);
