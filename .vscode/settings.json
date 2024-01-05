@@ -4,7 +4,7 @@
         "scrollbar.shadow": "#00000000"
     },
     "ocaml.sandbox": {
-        "kind": "opam",
-        "switch": "4.12.1"
-    }
+        "kind": "global"
+    },
+    "java.jdt.ls.java.home": "c:\\Program Files\\Java\\jdk-21",
 }

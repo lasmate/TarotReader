@@ -1,7 +1,6 @@
 package com.Main.tarotreader;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 
 public class History {
     private String UserHistory;

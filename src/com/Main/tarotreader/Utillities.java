@@ -28,6 +28,12 @@ public class Utillities {
 
         }
     }
+    
+    /**
+     * Retrieves the card bank from the TarotNames file and returns it as an array of strings.
+     *
+     * @return the card bank as an array of strings
+     */
     public static String[] getCardBank() {
         try {
             getTarotNames();

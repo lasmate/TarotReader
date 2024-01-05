@@ -47,8 +47,9 @@ public class Main {
                     case 2:
                         System.out.println("Loading a user's draw history...");
                         System.out.println("Please enter your username");
-                        char username = scanner.next().charAt(0);
-                        
+                        //char username = scanner.next().charAt(0);
+                        //history.LoadDraw(username);
+
                         
                         
 
