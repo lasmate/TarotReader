@@ -1,6 +1,7 @@
 
 package com.Main.tarotreader;
 
+
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -9,7 +10,7 @@ import java.util.Scanner;
 
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int selection=0;
 
@@ -35,15 +36,23 @@ public class Main {
                         display.DisplayCardsSimple(draw.getLuckRatio());
                         System.out.println("The cards you drew and their meanings are as follows:");
                         display.DisplayCardsFull(draw.getLuckRatio());
-                        System.out.println("do you want to save this draw? (y/n)");
-                        String save = scanner.next();
-                        
-                        if (save.equals("y")){
+                        System.out.println("do you want to save this draw? \n 1:yes \n 2:no");
+                        int save=0;
+                        scanner.nextLine();
+                        save = scanner.nextInt();
+                        scanner.nextLine();
+                        if (save == 1) {
                             System.out.println("Please enter your username");
-                            String username = scanner.next();
-                            
+                            String username = scanner.nextLine();
+                        
+                            // Pass the username to your history or draw-related methods
+                            // For example, you can use it when saving the draw or retrieving user history.
                             history.AddDraw(username, draw.getLuckRatio());
-                        };
+                        
+                            System.out.println("Draw saved successfully!");
+                        } else {
+                            System.out.println("Draw not saved.");
+                        }
                         history.AddDrawTemp(draw.getLuckRatio());
                         
                         break;
@@ -68,9 +77,10 @@ public class Main {
                     default:
                         System.out.println("Invalid selection. Please try again.");
                 }
-            }catch (InputMismatchException e){
+            }catch (InputMismatchException | IOException e){
                 System.out.println("Invalid selection. Please enter a correct number.");
                 scanner.nextLine();
+            
             }
         } while (selection != 4);
 

@@ -13,7 +13,7 @@ public class Draw {
     private int BaseDraw = 3;
     private int AdditionalDraw = 0;
     private int TotalDraw = 0;
-    private int CardsInDeck = 78;// might rename this variable to DeckSize for improved clarity
+    private int CardsInDeck = 77;// might rename this variable to DeckSize for improved clarity
     private int[][] FinalDraw = new int[TotalDraw][2];
 
     private int[] DrawnCards = new int[TotalDraw];
