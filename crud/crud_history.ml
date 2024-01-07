@@ -1,43 +1,82 @@
 (* CRUD functions for managing player's name and history in CSV *)
 
-(* load_csv: string -> string list list *)
+(* Load CSV data from a file *)
 let load_csv filename : string list list =
-  Csv.load ~separator:',' filename
+  try
+    Csv.load ~separator:',' filename
+  with Csv.Error err ->
+    (* Handle CSV loading errors *)
+    print_endline ("CSV loading error: " ^ Csv.string_of_error err);
+    exit 1
 
-(* save_csv: string -> string list list -> unit *)
+(* Save CSV data to a file *)
 let save_csv filename (data : string list list) =
-  Csv.save ~separator:',' ~quote_all:true filename data
+  try
+    Csv.save ~separator:',' ~quote_all:true filename data
+  with Csv.Error err ->
+    (* Handle CSV saving errors *)
+    print_endline ("CSV saving error: " ^ Csv.string_of_error err);
+    exit 1
 
-(* find_player_index: string -> string list list -> int option *)
+    (* Find the index of a player in the data *)
 let find_player_index player_name data =
-  let rec find_index_helper idx = function
-    | [] -> None
+  let rec find_index_helper index = function
+    | [] -> -1
     | row :: rest ->
-        if List.hd row = player_name then Some idx
-        else find_index_helper (idx + 1) rest
+      if List.mem player_name row then
+        index
+      else
+        find_index_helper (index + 1) rest
   in
   find_index_helper 0 data
 
-(* add_player: string -> string list list -> string list list *)
+
+(* Add a new player to the data *)
 let add_player player_name data =
-  if List.mem player_name (List.map List.hd data) then
-    data
-  else
-    [player_name] :: List.map (fun row -> "" :: row) data
+  let new_player_line = player_name :: List.map (fun _ -> "") (List.hd data) in
+  data @ [new_player_line]
 
-(* update_player: string -> string list list -> string list list *)
+(* Update the draw of an existing player *)
 let update_player player_name new_history data =
-  match find_player_index player_name data with
-  | Some idx ->
-      let updated_row = player_name :: new_history in
-      List.mapi (fun i row -> if i = idx then updated_row else row) data
-  | None -> add_player player_name data
+  let player_index = find_player_index player_name data in
+  if player_index >= 0 then
+    let updated_row = List.mapi (fun i cell ->
+      if i = player_index then new_history else cell
+    ) (List.hd data) in
+    List.mapi (fun i row ->
+      if i = player_index then updated_row else row
+    ) data
+  else
+    data
 
-(* delete_player: string -> string list list -> string list list *)
+(* Delete a player from the data *)
 let delete_player player_name data =
-  match find_player_index player_name data with
-  | Some idx -> List.filter (fun _ -> true) (List.mapi (fun i row -> if i = idx then [] else row) data)
-  | None -> data
+  let player_index = find_player_index player_name data in
+  if player_index >= 0 then
+    List.filter (fun _ -> true) (List.mapi (fun i row ->
+      if i = player_index then [] else row
+    ) data)
+  else
+    data
+
+    (* Add a draw to the first empty column in the player's line *)
+let add_draw_to_player player_name new_history data =
+  let player_index = find_player_index player_name data in
+  if player_index >= 0 then
+    List.mapi (fun i row ->
+      if i = player_index then
+        let updated_row = List.mapi (fun j cell ->
+          if cell = "" && j < String.length new_history then
+            String.sub new_history j 1
+          else
+            String.sub cell j 1
+        ) row in
+        updated_row
+      else
+        row
+    ) data
+  else
+    data
 
 (* commandline call *)
   let()
