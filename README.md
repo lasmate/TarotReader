@@ -12,7 +12,7 @@ Once the user is done reading the cards, the app asks if the user wants to do an
 
 when quitting the app, stores the last drawn cards in a temporary file, so that the user can review their last reading when they start the app again.
 
-mermaid diagram of the app
+mermaid diagram of the app ( which is a bit broken in the github renderer)
  ```mermaid
   flowchart TD
  subgraph JAVA
