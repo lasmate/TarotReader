@@ -1,10 +1,7 @@
 
-Lasvenes
-Mateo
-
 # Tarot reader 
 ## Description
-Projet d'uni visan a mettre en oeuvre deux language fondamontalement different (un oop et un monolithque)
+Projet d'uni visan créer un programme utilisant deux language fondamontalement different (un oop et un monolithque)
 
 This is a tarot reader app written in java and OcamL. 
 It allows the user to do , in two steps, to draw 3 cards for a baseline reading, then prompts if the user wants to draw more cards ( from 0 to 3 for a total of a 6 card reading )
