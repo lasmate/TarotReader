@@ -41,7 +41,7 @@ mermaid diagram of the app
 	
 subgraph Display Draw
 	Z{display}
-	Z-->Z1(card name and ratio card by card  )
+	Z-->Z1(card name and ratio card by card)
 	Z-->Z2(card with meanings)
 	Z-->Z3(card, meaning, chance ratio, total chance ratio)
 end
